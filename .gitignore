@@ -1,0 +1,16 @@
+# Environment configuration
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# User uploads (keep directory security file)
+uploads/*
+!uploads/.htaccess
+
+# Server logs
+*.log
+error_log
