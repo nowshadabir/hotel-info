@@ -263,7 +263,7 @@ $notice=flash();
       <p><?= $id?'Manage room categories, rates, dates and photos.':'Create a hotel, then add its room categories and rates.' ?></p>
     </div>
     <?php if($id): ?>
-      <form method="post" onsubmit="return confirm('Delete this hotel and all its room categories and photos?')">
+      <form method="post" action="hotel.php?id=<?=$id?>" onsubmit="return confirm('Delete this hotel and all its room categories and photos?')">
         <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
         <input type="hidden" name="action" value="delete_hotel">
         <input type="hidden" name="id" value="<?=$id?>">
@@ -280,7 +280,7 @@ $notice=flash();
     </div>
   <?php endif; ?>
 
-  <form method="post" class="panel hotel-form">
+  <form method="post" action="hotel.php<?=$id ? '?id=' . $id : ''?>" class="panel hotel-form">
     <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
     <input type="hidden" name="action" value="save">
     <input type="hidden" name="id" value="<?=$id?>">
@@ -325,7 +325,7 @@ $notice=flash();
             <?php if($room['description']): ?><p><?=h($room['description'])?></p><?php endif; ?>
           </div>
           <button class="button button-light" type="button" data-edit-room="<?=$room['id']?>">Edit rates / dates</button>
-          <form method="post" class="share-control">
+          <form method="post" action="hotel.php?id=<?=$id?>" class="share-control">
             <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
             <input type="hidden" name="action" value="share_room">
             <input type="hidden" name="id" value="<?=$id?>">
@@ -367,7 +367,7 @@ $notice=flash();
               <button type="button" class="photo-thumb-btn" data-preview-image="<?=h($image['path'])?>" data-preview-alt="<?=h($room['name'])?> photo" title="Click to view full photo">
                 <img src="<?=h($image['path'])?>" alt="<?=h($room['name'])?> photo" loading="lazy">
               </button>
-              <form method="post" class="delete-photo-form" data-delete-image-form data-image-id="<?=$image['id']?>" onsubmit="return confirm('Remove this photo?')">
+              <form method="post" action="hotel.php?id=<?=$id?>" class="delete-photo-form" data-delete-image-form data-image-id="<?=$image['id']?>" onsubmit="return confirm('Remove this photo?')">
                 <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
                 <input type="hidden" name="action" value="delete_image">
                 <input type="hidden" name="id" value="<?=$id?>">
@@ -379,7 +379,7 @@ $notice=flash();
         </div>
 
         <!-- Room Edit Form -->
-        <form method="post" class="room-edit-form <?=isset($_POST['room_id'])&&(int)$_POST['room_id']===(int)$room['id']?'':'hidden'?>" id="room-<?=$room['id']?>" enctype="multipart/form-data">
+        <form method="post" action="hotel.php?id=<?=$id?>" class="room-edit-form <?=isset($_POST['room_id'])&&(int)$_POST['room_id']===(int)$room['id']?'':'hidden'?>" id="room-<?=$room['id']?>" enctype="multipart/form-data">
           <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
           <input type="hidden" name="action" value="save_room">
           <input type="hidden" name="id" value="<?=$id?>">
@@ -479,7 +479,7 @@ $notice=flash();
           </div>
         </form>
 
-        <form id="delete-room-<?=$room['id']?>" method="post" onsubmit="return confirm('Delete this room category and its photos?')">
+        <form id="delete-room-<?=$room['id']?>" method="post" action="hotel.php?id=<?=$id?>" onsubmit="return confirm('Delete this room category and its photos?')">
           <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
           <input type="hidden" name="action" value="delete_room">
           <input type="hidden" name="id" value="<?=$id?>">
@@ -492,7 +492,7 @@ $notice=flash();
     <button class="button button-outline add-room" type="button" data-new-room>＋ Add room category</button>
 
     <!-- New Room Category Form -->
-    <form method="post" class="panel new-room-form <?=($_SERVER['REQUEST_METHOD']==='POST'&&($_POST['action']??'')==='save_room'&&empty($_POST['room_id']))?'':'hidden'?>" id="new-room" enctype="multipart/form-data">
+    <form method="post" action="hotel.php?id=<?=$id?>" class="panel new-room-form <?=($_SERVER['REQUEST_METHOD']==='POST'&&($_POST['action']??'')==='save_room'&&empty($_POST['room_id']))?'':'hidden'?>" id="new-room" enctype="multipart/form-data">
       <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
       <input type="hidden" name="action" value="save_room">
       <input type="hidden" name="id" value="<?=$id?>">

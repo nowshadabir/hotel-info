@@ -145,6 +145,29 @@ async function compressImage(file, maxDimension = 2000, quality = 0.84) {
   });
 }
 
+// Safely extract action URL and method from form without HTMLInputElement property collision
+function getFormAction(form) {
+  if (!form) return window.location.href;
+  try {
+    const rawAction = HTMLFormElement.prototype.getAttribute.call(form, 'action');
+    if (typeof rawAction === 'string' && rawAction.trim() !== '') {
+      return rawAction;
+    }
+  } catch {}
+  return window.location.href;
+}
+
+function getFormMethod(form) {
+  if (!form) return 'POST';
+  try {
+    const rawMethod = HTMLFormElement.prototype.getAttribute.call(form, 'method');
+    if (typeof rawMethod === 'string' && rawMethod.trim() !== '') {
+      return rawMethod.toUpperCase();
+    }
+  } catch {}
+  return 'POST';
+}
+
 // Initialize each Upload Zone Container
 document.querySelectorAll('.upload-zone-container').forEach(container => {
   const form = container.closest('form');
@@ -420,8 +443,8 @@ document.querySelectorAll('.upload-zone-container').forEach(container => {
         }
       }
 
-      const hotelId = form ? (form.querySelector('input[name="id"]')?.value || '') : '';
-      const csrf = form ? (form.querySelector('input[name="csrf"]')?.value || '') : '';
+      const hotelId = form ? (form.querySelector('input[name="id"]')?.value || '') : (new URLSearchParams(window.location.search).get('id') || '');
+      const csrf = form ? (form.querySelector('input[name="csrf"]')?.value || '') : (document.querySelector('input[name="csrf"]')?.value || '');
 
       const payload = new FormData();
       payload.append('action', 'upload_room_photos');
@@ -436,7 +459,7 @@ document.querySelectorAll('.upload-zone-container').forEach(container => {
       const xhr = new XMLHttpRequest();
       activeRequest = xhr;
 
-      xhr.open('POST', form?.action || window.location.href, true);
+      xhr.open('POST', getFormAction(form), true);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
       xhr.upload.addEventListener('progress', pe => {
@@ -512,7 +535,7 @@ document.querySelectorAll('.upload-zone-container').forEach(container => {
         const xhr = new XMLHttpRequest();
         activeRequest = xhr;
 
-        xhr.open(form.method || 'POST', form.action || window.location.href, true);
+        xhr.open(getFormMethod(form), getFormAction(form), true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
         xhr.upload.addEventListener('progress', pe => {
@@ -571,6 +594,7 @@ function createPhotoElement(imageId, imagePath, roomName, hotelId, csrf) {
 
   const deleteForm = document.createElement('form');
   deleteForm.method = 'post';
+  deleteForm.setAttribute('action', `hotel.php?id=${encodeURIComponent(hotelId)}`);
   deleteForm.className = 'delete-photo-form';
   deleteForm.dataset.deleteImageForm = 'true';
   deleteForm.dataset.imageId = String(imageId);
@@ -599,8 +623,8 @@ document.addEventListener('submit', async event => {
 
   const formData = new FormData(form);
   try {
-    const res = await fetch(form.action || window.location.href, {
-      method: 'POST',
+    const res = await fetch(getFormAction(form), {
+      method: getFormMethod(form),
       body: formData,
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     });
