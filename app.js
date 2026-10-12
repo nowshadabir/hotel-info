@@ -579,18 +579,16 @@ function createPhotoElement(imageId, imagePath, roomName, hotelId, csrf) {
   div.className = 'photo is-new';
   div.dataset.imageId = String(imageId);
 
-  const thumbBtn = document.createElement('button');
-  thumbBtn.type = 'button';
-  thumbBtn.className = 'photo-thumb-btn';
-  thumbBtn.dataset.previewImage = imagePath;
-  thumbBtn.dataset.previewAlt = `${roomName} photo`;
-  thumbBtn.title = 'Click to view full photo';
-
   const img = document.createElement('img');
   img.src = imagePath;
   img.alt = `${roomName} photo`;
+  img.className = 'photo-img';
   img.loading = 'lazy';
-  thumbBtn.append(img);
+  img.dataset.previewImage = imagePath;
+  img.dataset.previewAlt = `${roomName} photo`;
+  img.setAttribute('role', 'button');
+  img.setAttribute('tabindex', '0');
+  img.title = 'Click to view full photo';
 
   const deleteForm = document.createElement('form');
   deleteForm.method = 'post';
@@ -606,7 +604,7 @@ function createPhotoElement(imageId, imagePath, roomName, hotelId, csrf) {
     <button type="submit" title="Remove photo" aria-label="Remove photo">×</button>
   `;
 
-  div.append(thumbBtn, deleteForm);
+  div.append(img, deleteForm);
   return div;
 }
 

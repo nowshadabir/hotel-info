@@ -364,9 +364,7 @@ $notice=flash();
         <div class="photo-grid <?=empty($room['images'])?'hidden':''?>" data-room-photo-grid="<?=$room['id']?>">
           <?php foreach($room['images'] as $image): ?>
             <div class="photo" data-image-id="<?=$image['id']?>">
-              <button type="button" class="photo-thumb-btn" data-preview-image="<?=h($image['path'])?>" data-preview-alt="<?=h($room['name'])?> photo" title="Click to view full photo">
-                <img src="<?=h($image['path'])?>" alt="<?=h($room['name'])?> photo" loading="lazy">
-              </button>
+              <img src="<?=h($image['path'])?>" alt="<?=h($room['name'])?> photo" loading="lazy" class="photo-img" data-preview-image="<?=h($image['path'])?>" data-preview-alt="<?=h($room['name'])?> photo" role="button" tabindex="0" title="Click to view full photo">
               <form method="post" action="hotel.php?id=<?=$id?>" class="delete-photo-form" data-delete-image-form data-image-id="<?=$image['id']?>" onsubmit="return confirm('Remove this photo?')">
                 <input type="hidden" name="csrf" value="<?=h(csrf_token())?>">
                 <input type="hidden" name="action" value="delete_image">

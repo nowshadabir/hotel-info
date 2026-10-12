@@ -1,4 +1,4 @@
-const CACHE_NAME = 'staybook-shell-v10';
+const CACHE_NAME = 'staybook-shell-v11';
 const SHELL_FILES = [
   './offline.html',
   './style.css',

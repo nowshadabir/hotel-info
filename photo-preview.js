@@ -32,6 +32,13 @@
     if (event.key === 'Escape' && dialog.open) {
       dialog.close();
     }
+    if ((event.key === 'Enter' || event.key === ' ') && !dialog.open) {
+      const trigger = event.target.closest('[data-preview-image]');
+      if (trigger) {
+        event.preventDefault();
+        trigger.click();
+      }
+    }
   });
 })();
 
