@@ -233,10 +233,10 @@ $notice=flash();
 <title><?= $id?'Edit hotel':'Add hotel' ?> · Staybook</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="style.css?v=6">
-<script defer src="photo-preview.js?v=2"></script>
-<script defer src="app.js?v=7"></script>
-<script defer src="pwa.js?v=4"></script>
+<link rel="stylesheet" href="style.css">
+<script defer src="photo-preview.js"></script>
+<script defer src="app.js"></script>
+<script defer src="pwa.js"></script>
 </head>
 <body>
 <header class="topbar">

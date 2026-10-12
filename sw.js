@@ -1,15 +1,16 @@
-const CACHE_NAME = 'staybook-shell-v7';
+const CACHE_NAME = 'staybook-shell-v8';
 const SHELL_FILES = [
   './offline.html',
-  './style.css?v=6',
-  './app.js?v=7',
-  './pwa.js?v=4',
-  './photo-preview.js?v=2',
+  './style.css',
+  './app.js',
+  './pwa.js',
+  './photo-preview.js',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
+
 
 
 self.addEventListener('install', event => {
